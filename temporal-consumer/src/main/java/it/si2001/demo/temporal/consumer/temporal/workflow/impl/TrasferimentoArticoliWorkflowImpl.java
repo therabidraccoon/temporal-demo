@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 
+//OK ho testato sta roba
 //Si ma ci lavoro anchio
 @Slf4j
 public class TrasferimentoArticoliWorkflowImpl implements TrasferimentoArticoliWorkflow {
@@ -36,11 +37,4 @@ public class TrasferimentoArticoliWorkflowImpl implements TrasferimentoArticoliW
         articoloActivity.scarico(nomeArticolo, quantita, idMagazzinoPartenza);
         articoloActivity.carico(nomeArticolo, quantita, idMagazzinoDestinazione);
     }
-
-
-//    try {
-//        Thread.sleep(10000);
-//    } catch (InterruptedException e) {
-//        log.error("Error sleeping thread", e);
-//    }
 }
