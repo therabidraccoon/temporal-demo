@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 
+//Si ma ci lavoro anchio
 @Slf4j
 public class TrasferimentoArticoliWorkflowImpl implements TrasferimentoArticoliWorkflow {
 
