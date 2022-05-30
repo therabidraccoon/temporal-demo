@@ -5,9 +5,11 @@ import io.temporal.common.RetryOptions;
 import io.temporal.workflow.Workflow;
 import it.si2001.demo.temporal.consumer.temporal.activity.ArticoloActivity;
 import it.si2001.demo.temporal.workflows.CaricoArticoliWorkflow;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 
+@Slf4j
 public class CaricoArticoliWorkflowImpl implements CaricoArticoliWorkflow {
 
     private final RetryOptions retryoptions = RetryOptions.newBuilder()
