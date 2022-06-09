@@ -8,15 +8,37 @@ import it.si2001.demo.temporal.constants.Constants;
 import it.si2001.demo.temporal.constants.MagazzinoTasks;
 import it.si2001.demo.temporal.workflows.CaricoArticoliWorkflow;
 import it.si2001.demo.temporal.workflows.ScaricoArticoliWorkflow;
+import it.si2001.demo.temporal.workflows.TestWorkflow;
 import it.si2001.demo.temporal.workflows.TrasferimentoArticoliWorkflow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Service
 public class WorkflowsStarter {
+
+
+    public String test(String testText) throws ExecutionException, InterruptedException {
+        // WorkflowServiceStubs is a gRPC stubs wrapper that talks to the local Docker instance of the Temporal server.
+        WorkflowServiceStubs service = WorkflowServiceStubs.newInstance();
+        WorkflowOptions options = WorkflowOptions.newBuilder()
+                .setTaskQueue(MagazzinoTasks.TEST.name() + Constants.QUEUE)
+                // A WorkflowId prevents this it from having duplicate instances, remove it to duplicate.
+                .setWorkflowId(MagazzinoTasks.TEST.name() + "_" + System.currentTimeMillis())
+                .build();
+        // WorkflowClient can be used to start, signal, query, cancel, and terminate Workflows.
+        WorkflowClient client = WorkflowClient.newInstance(service);
+        // WorkflowStubs enable calls to methods as if the Workflow object is local, but actually perform an RPC.
+        TestWorkflow workflow = client.newWorkflowStub(TestWorkflow.class, options);
+
+        // Asynchronous execution. This process will exit after making this call.
+        CompletableFuture<String> future = WorkflowClient.execute(workflow::test, testText);
+        String response = future.get();
+        return response;
+    }
 
     public void carico(String nomeArticolo
             , Integer quantita

@@ -8,12 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 public class WarehouseController {
 
     private final WorkflowsStarter workflowsStarter;
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test(@RequestParam("test") String test) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(workflowsStarter.test(test));
+    }
 
     @GetMapping("/articolo/carico")
     public ResponseEntity<Void> carico(@RequestParam("nomeArticolo") String nomeArticolo
